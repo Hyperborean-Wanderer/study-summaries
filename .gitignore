@@ -1,0 +1,8 @@
+# Ignore all files with no extension combination
+*
+!*.*
+!*/
+
+# Ignore VS Code specific project files
+# .vscode/ ... or probably not
+
