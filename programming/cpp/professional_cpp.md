@@ -127,3 +127,5 @@ Custom types will be reviewed later. Digits on large numbers can be made more vi
 with single quotes like `23'456'789` or `0.123'456f`.
 
 ### Variables
+Can be declared and used almost anywhere, for using them, this can be under the line they
+were declared. If no value given, they end with semi-random value from memory.
