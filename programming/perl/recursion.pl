@@ -32,9 +32,38 @@ sub hanoi{
 
 sub print_movement{
     my ($disk, $start, $end) = @_;
-    CORE::say "Move disk #$disk from $start to $end.";
+    CORE::say "Moving disk #$disk from $start to $end.";
 }
 
-CORE::say binary(37);
-CORE::say factorial(4);
-hanoi(3, 'A', 'C', 'B', \&print_movement);
+@position = ('', ('A') x 4); # Initial position of disks, update accordingly num of disks
+#CORE::say "@position";
+
+sub check_move{
+    my ($disk, $start, $end) = @_;
+    my $i;
+
+    if($disk < 1 || $disk > $#position){ # Such a disk nmber shouldn't exist
+        die "Bad disk number $disk. Should be 1..$#position.\n";
+    }
+
+    unless($position[$disk] eq $start){ # Disk should be on the desired start position
+        die "Tried to move disk $disk from $start, but it is on peg $position[$disk].\n";
+    }
+
+    for $i (1 .. $disk - 1){
+        if($position[$i] eq $start){ # Smaller disks shouldn't be on top of the target disk
+            die "Can't move disk $disk from $start because $i is on top of it.\n";
+        } elsif($position[$i] eq $end){ # Nor be already on the target peg
+            die "Can't move disk $disk to $end because $i is already there.\n";
+        }
+    }
+
+    print_movement($disk, $start, $end);
+    $position[$disk] = $end;
+    #CORE::say "@position";
+}
+
+#CORE::say binary(37);
+#CORE::say factorial(4);
+hanoi(4, 'A', 'C', 'B', \&check_move);
+
