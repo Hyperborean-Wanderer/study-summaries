@@ -19,17 +19,22 @@ sub factorial{
 }
 
 sub hanoi{
-    my ($n, $start, $end, $extra) = @_;
+    my ($n, $start, $end, $extra, $update_output) = @_;
 
     if($n == 1) {
-        CORE::say "Move disk #1 from $start to $end.";
+        $update_output->(1, $start, $end);
     } else {
-        hanoi($n - 1, $start, $extra, $end);
-        CORE::say "Move disk #$n from $start to $end.";
-        hanoi($n - 1, $extra, $end, $start);
+        hanoi($n - 1, $start, $extra, $end, $update_output);
+        $update_output->($n, $start, $end);
+        hanoi($n - 1, $extra, $end, $start, $update_output);
     }
+}
+
+sub print_movement{
+    my ($disk, $start, $end) = @_;
+    CORE::say "Move disk #$disk from $start to $end.";
 }
 
 CORE::say binary(37);
 CORE::say factorial(4);
-hanoi(3, 'A', 'C', 'B');
+hanoi(3, 'A', 'C', 'B', \&print_movement);
